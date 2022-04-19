@@ -1,4 +1,6 @@
 import * as React from "react";
-export const Button = () => {
-  return <button>Boop</button>;
+import Button from "@mui/material/Button";
+
+export const MainButton = () => {
+  return <Button variant="outlined">Boop</Button>;
 };

@@ -1,5 +1,7 @@
 # Turborepo starter with NPM
 
+npx create-turbo@latest turbo-demo
+
 This is an official starter turborepo.
 
 ## What's inside?
