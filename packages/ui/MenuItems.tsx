@@ -1,14 +1,13 @@
-import { IconButtonProps } from "@mui/material";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 interface Props {
-  text: string;
-  index: IconButtonProps;
-  open: Boolean;
+  text?: string;
+  children: JSX.Element;
+  open: boolean;
 }
-export const MenuItems = ({ text, index, open }: Props) => {
+export const MenuItems = ({ text, children, open }: Props) => {
   return (
     <ListItemButton
       key={text}
@@ -16,6 +15,10 @@ export const MenuItems = ({ text, index, open }: Props) => {
         minHeight: 48,
         justifyContent: open ? "initial" : "center",
         px: 2.5,
+        "&:hover": {
+          color: "#7338AC",
+          // backgroundColor: "rgba(115, 56, 172, .5)",
+        },
       }}
     >
       <ListItemIcon
@@ -23,9 +26,12 @@ export const MenuItems = ({ text, index, open }: Props) => {
           minWidth: 0,
           mr: open ? 3 : "auto",
           justifyContent: "center",
+          "&:hover": {
+            color: "#7338AC",
+          },
         }}
       >
-        {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+        {children}
       </ListItemIcon>
       <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
     </ListItemButton>

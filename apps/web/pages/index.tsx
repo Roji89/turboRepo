@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import { MainButton } from "ui";
 import MiniDrawer from "ui/Menu";
 
 export default function Web() {
@@ -14,7 +13,9 @@ export default function Web() {
         position: "fixed",
       }}
     >
-      <MiniDrawer />
+      <Box>
+        <MiniDrawer />
+      </Box>
       <Box
         style={{
           backgroundColor: "white",
