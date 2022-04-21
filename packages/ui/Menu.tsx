@@ -1,10 +1,8 @@
 import * as React from "react";
 
-import { MenuItems } from "./MenuItems";
-
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
+import Paper from "@mui/material/Paper";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import IconButton from "@mui/material/IconButton";
 import GroupIcon from "@mui/icons-material/Group";
@@ -14,8 +12,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
-const drawerWidth = 300;
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CloseIcon from "@mui/icons-material/Close";
 
 const menuIcons = [
   { text: "Dashboard", Icon: DashboardIcon },
@@ -23,112 +22,132 @@ const menuIcons = [
   { text: "Customers", Icon: ShoppingBasketIcon },
   { text: "Calendar", Icon: CalendarTodayIcon },
 ];
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  border: "none",
-  borderRadius: "7px",
-  boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
-  gap: "20%",
-});
 
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(8)})`,
-  border: "none",
-  borderRadius: "7px",
-  boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
-  gap: "20%",
-});
+const botomMenuIcons = [
+  { Icon: KeyboardArrowRightIcon },
+  { Icon: SettingsIcon },
+  { Icon: NotListedLocationIcon },
+  { Icon: ExitToAppIcon },
+];
+interface Props {
+  style?: React.CSSProperties;
+  open: boolean;
+  openByClick: boolean;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  onClickOpen?: React.MouseEventHandler<HTMLAnchorElement>;
+  onClickClose?: React.MouseEventHandler<HTMLAnchorElement>;
+}
 
-export default function MiniDrawer() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
+export default function SideBar({
+  style,
+  open,
+  onMouseEnter,
+  onMouseLeave,
+  onClickOpen,
+  onClickClose,
+  openByClick,
+}: Props) {
   return (
-    <Drawer
-      variant="permanent"
-      open={open}
-      onMouseEnter={handleDrawerOpen}
-      onMouseLeave={handleDrawerClose}
+    <StyledPaper
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      elevation={3}
+      style={style}
     >
       {open === true ? (
-        <DrawerHeader style={{ alignItems: "center", flexDirection: "column" }}>
+        <DrawerHeader
+          style={{
+            alignContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
           <IconButton edge="start">
             <AccountCircleIcon fontSize="large" />
           </IconButton>
-          <span>Hi, JohnDOe</span>
+          <span>Hi, JohnDoe</span>
           <span>john.doe@lim.com</span>
         </DrawerHeader>
       ) : (
-        <DrawerHeader>
+        <DrawerHeader
+          style={{ justifyContent: "center", alignItems: "flex-start" }}
+        >
           <IconButton aria-label="open drawer" edge="start">
             <AccountCircleIcon fontSize="large" />
           </IconButton>
         </DrawerHeader>
       )}
-      <Box style={{ display: "flex", flexDirection: "column", flexGrow: 3 }}>
-        {menuIcons.map(({ Icon, text }) => (
-          <MenuItems text={text} open={open}>
-            <Icon />
-          </MenuItems>
-        ))}
-      </Box>
-      <DrawerButton
+      <Box
         style={{
-          flexDirection: open ? "row" : "column",
-          justifyContent: open ? "space-around" : "center",
+          display: "flex",
+          flexDirection: "column",
+          flexGrow: 4,
+          justifyContent: "center",
         }}
       >
-        <SettingsIcon color="action" />
-        <NotListedLocationIcon color="action" />
-        <ExitToAppIcon color="error" />
-      </DrawerButton>
-    </Drawer>
+        {menuIcons.map(({ Icon, text }) => (
+          <ListItemButton
+            sx={{
+              minWidth: 10,
+              maxHeight: 50,
+              px: 2.5,
+              mr: open ? 3 : "auto",
+              justifyContent: open ? "initial" : "center",
+              "&:hover": {
+                color: "#7338AC",
+              },
+            }}
+          >
+            <ListItemIcon>
+              <Icon />
+            </ListItemIcon>
+            {open && <ListItemText primary={text} />}
+          </ListItemButton>
+        ))}
+      </Box>
+      <DrawerBottom
+        style={{
+          flexDirection: open ? "row" : "column",
+          justifyContent: open ? "space-around" : "flex-end",
+        }}
+      >
+        {openByClick === false ? (
+          <IconButton onClick={onClickOpen}>
+            <KeyboardArrowRightIcon />
+          </IconButton>
+        ) : (
+          <IconButton onClick={onClickClose}>
+            <CloseIcon />
+          </IconButton>
+        )}
+
+        <SettingsIcon />
+        <NotListedLocationIcon />
+        <ExitToAppIcon />
+      </DrawerBottom>
+    </StyledPaper>
   );
 }
-const DrawerHeader = styled("div")(({ theme }) => ({
+
+const StyledPaper = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding-top: 5px;
+  padding-bottom: 30px;
+`;
+
+const DrawerHeader = styled(Box)(() => ({
   display: "flex",
-  justifyContent: "center",
   color: "black",
+}));
+
+const DrawerBottom = styled(Box)(() => ({
+  display: "flex",
+  minHeight: "30px",
   flexGrow: 1,
-  ...theme.mixins.toolbar,
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  display: "flex",
-  flex: 1,
-  width: drawerWidth,
-  flexShrink: 0,
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
-}));
-
-const DrawerButton = styled("div")(({ theme }) => ({
-  display: "flex",
   alignItems: "center",
-  flexGrow: 1,
 }));
+//shadow for the icons
