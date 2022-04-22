@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -12,7 +12,12 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Button,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -32,7 +37,7 @@ const botomMenuIcons = [
 interface Props {
   style?: React.CSSProperties;
   open: boolean;
-  openByClick: boolean;
+  openByClick?: boolean;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
   onClickOpen?: React.MouseEventHandler<HTMLAnchorElement>;
@@ -100,7 +105,9 @@ export default function SideBar({
             }}
           >
             <ListItemIcon>
-              <Icon />
+              <Icon
+                style={{ WebkitFilter: "drop-shadow(0 5px 5px #555555)" }}
+              />
             </ListItemIcon>
             {open && <ListItemText primary={text} />}
           </ListItemButton>
@@ -109,22 +116,29 @@ export default function SideBar({
       <DrawerBottom
         style={{
           flexDirection: open ? "row" : "column",
-          justifyContent: open ? "space-around" : "flex-end",
+          justifyContent: open ? "center" : "flex-end",
         }}
       >
         {openByClick === false ? (
-          <IconButton onClick={onClickOpen}>
+          <Button
+            onClick={onClickOpen}
+            sx={{ minWidth: 0 }}
+            style={{ color: "#555555", opacity: "60%", width: "2px" }}
+          >
             <KeyboardArrowRightIcon />
-          </IconButton>
+          </Button>
         ) : (
-          <IconButton onClick={onClickClose}>
+          <IconButton
+            onClick={onClickClose}
+            style={{ color: "#555555", opacity: "60%" }}
+          >
             <CloseIcon />
           </IconButton>
         )}
 
-        <SettingsIcon />
-        <NotListedLocationIcon />
-        <ExitToAppIcon />
+        <SettingsIcon style={{ color: "#555555", opacity: "60%" }} />
+        <NotListedLocationIcon style={{ color: "#555555", opacity: "60%" }} />
+        <ExitToAppIcon color="error" />
       </DrawerBottom>
     </StyledPaper>
   );
@@ -150,4 +164,3 @@ const DrawerBottom = styled(Box)(() => ({
   flexGrow: 1,
   alignItems: "center",
 }));
-//shadow for the icons

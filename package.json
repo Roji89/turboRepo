@@ -10,11 +10,19 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
+    "test": " jest",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.25",
+    "esbuild": "^0.14.38",
+    "esbuild-jest": "^0.5.0",
+    "jest": "^27.5.1",
     "prettier": "^2.5.1",
+    "ts-jest": "^27.1.4",
     "turbo": "latest"
   },
   "engines": {
